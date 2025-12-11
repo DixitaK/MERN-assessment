@@ -1,56 +1,38 @@
-# MERN Assessment Project
+# MERN Multi-Level Category API
+This repository contains a suggested MERN-stack** (TypeScript)** implementation for the assessment.
 
-This repository is a scaffold for a MERN (MongoDB, Express, React, Node) assessment.
+## Features
+- JWT Auth (register + login)
+- Categories with nested structure (parent references)
+- Get categories as tree
+- Create / Update / Delete category
+- Delete reassigns immediate children to deleted category's parent
+- Marking inactive cascades to subcategories (uses MongoDB $graphLookup)
+- Jest tests with MongoMemoryServer
 
----
+## Setup
+1. copy `.env.example` to `.env` and set values
+2. Install:
+   npm install
+3. Run in dev:
+   npm run dev
+4. Build & run:
+   npm run build
+   npm start
 
-## 🚀 Quick Start (Local)
+## Tests
+`npm test`
 
-1. Copy `.env.example` to `.env` in the backend and fill values.
-2. Run with Docker Compose:
+## Notes & performance
+- Indexes on `parent`, `status`, `name` to optimize lookups.
+- Cascading status update uses `$graphLookup` + `updateMany` for bulk efficiency.
+- `GET /api/category` fetches all categories into memory then builds tree. For very large data sets, consider server-side pagination + incremental loads or recursive aggregation with `$graphLookup` followed by tree-building, or a materialized path pattern.
 
-   ```bash
-   docker-compose up --build
-   ```
-
-   - Backend will be at: **http://localhost:5000**  
-   - Frontend will be at: **http://localhost:3000**
-
----
-
-## 🛠 Manual Start (Backend)
-
-```bash
-cd backend
-npm install
-cp .env.example .env   # Edit values
-npm run dev
-```
-
----
-
-## 🖥 Manual Start (Frontend)
-
-```bash
-cd frontend
-npm install
-npm start
-```
-
----
-
-## 📦 What Is Included
-
-- Minimal Express API with user model and auth routes (register / login)
-- React app stub (create-react-app or Vite recommended)
-- Docker + docker-compose for full stack (App + MongoDB)
-
----
-
-## 📋 How the Assessment Is Completed
-
-1. Read assessment details and listed features.
-2. Implemented API endpoints and frontend UI for each endpoint.
-3. Added tests (Jest + Supertest for backend; React Testing Library for frontend).
-4. Added authentication (JWT) and protected routes.
-5. Ensured linting and tests pass before deployment.
+## API
+- `POST /api/auth/register` { email, password } -> token
+- `POST /api/auth/login` { email, password } -> token
+- All category routes require `Authorization: Bearer <token>`
+- `POST /api/category` { name, parent? } -> create
+- `GET /api/category` -> tree structure
+- `PUT /api/category/:id` { name?, parent?, status? } -> update (status inactive cascades)
+- `DELETE /api/category/:id` -> reassign children to parent, delete
