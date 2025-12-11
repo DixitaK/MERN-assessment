@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  api:
+    build: ./server
+    container_name: category_api
+    ports:
+      - "5000:8080"
+    environment:
+      PORT: 8080
+      MONGO_URI: mongodb://mongo:27017/categorydb
+      JWT_SECRET: yoursecretkey
+    depends_on:
+      - mongo
+    restart: always
+
+  mongo:
+    image: mongo:6
+    container_name: category_db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
+version: "3.9"
+
+services:
+  api:
+    build: ./server
+    container_name: category_api
+    ports:
+      - "5000:8080"
+    environment:
+      PORT: 8080
+      MONGO_URI: mongodb://mongo:27017/mern-category-api
+      JWT_SECRET: yoursecretkey
+    depends_on:
+      - mongo
+    restart: always
+
+  mongo:
+    image: mongo:6
+    container_name: category_db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
