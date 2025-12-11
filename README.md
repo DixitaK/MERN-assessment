@@ -1,5 +1,5 @@
 # MERN Multi-Level Category API
-This repository contains a suggested MERN-stack** (TypeScript)** implementation for the assessment.
+This repository contains a suggested MERN-stack **(TypeScript)** implementation for the assessment.
 
 ## Features
 - JWT Auth (register + login)
@@ -36,3 +36,4 @@ This repository contains a suggested MERN-stack** (TypeScript)** implementation 
 - `GET /api/category` -> tree structure
 - `PUT /api/category/:id` { name?, parent?, status? } -> update (status inactive cascades)
 - `DELETE /api/category/:id` -> reassign children to parent, delete
+
