@@ -1,5 +1,4 @@
 # Node modules
-server/node_modules
 node_modules
 
 # Environment files
